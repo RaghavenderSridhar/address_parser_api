@@ -1,0 +1,62 @@
+FROM python:3.8-slim-buster
+
+RUN apt-get update && apt-get install -y \
+    autoconf automake build-essential curl git libsnappy-dev libtool pkg-config
+
+RUN echo " this is docker container for address parser"
+
+RUN echo " this is Maintained by Raghavender SRIDHAR"
+
+LABEL maintainer="Raghavender Sridhar"
+
+USER root
+
+###### installing pip dependency
+COPY ./pip.conf /home/pip.conf
+
+ENV PIP_CONFIG_FILE /home/pip.conf
+
+
+
+####copying script files and app folder
+
+WORKDIR /addressParser
+
+ADD ./python_app /addressParser/python_app
+
+####moving the model file and untaring it
+
+WORKDIR /opt/address_parser_data
+
+COPY ./build_addressparserv2.sh .
+
+RUN chmod +x *.sh
+
+RUN ./build_addressparserv2.sh
+
+####pip install
+
+COPY ./python_app/requirements.txt /tmp/requirements.txt
+
+
+RUN python3 -m pip install -r /tmp/requirements.txt
+
+
+###exposing port end point
+EXPOSE 8080
+
+###entrypoint
+ADD ./entrypoint.sh ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
+
+ENTRYPOINT ["./entrypoint.sh"]
+
+CMD ["/bin/bash"]
+
+
+# COPY ./address_parser_compiled.tar.gz .
+
+# RUN chmod +x *.sh
+
+
+
