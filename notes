@@ -13,7 +13,7 @@ sudo docker build -t addressparserswagger -f Dockerfile .
 
 ###running a container
 
-sudo docker run --name addressparserapicontainer -d -p 8080:8080 29f83e6f20d4
+sudo docker run --name addressparserapicontainertest -d -p 8080:8080 4ea9a8b12bfb
 
 sudo docker run -d --name testcontainer test
 
@@ -35,7 +35,8 @@ sudo docker exec -it addressparserapicontainer bash
 
 ### removing docker image
 sudo docker rmi test:latest
-sudo docker rmi addressparserapi:latest
+sudo docker rmi bardock123/addressparser:latest
+sudo docker rmi bardock123/addressparser:firstimagepush
 
 ###stoping all docker containers
 sudo docker stop $(sudo docker ps -a -q)
@@ -47,6 +48,9 @@ sudo docker rmi $(sudo docker images -a -q)
 ####docker logs
 
 sudo docker logs --since=1h d97db4094e00
+
+###remove dangling docker images
+sudo docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
 
 ####testing api 
 http://172.17.0.2:8080/api/v1/addressparser/"The Book Club 100-106 Leonard St, Shoreditch, London, Greater London, EC2A 4RH, United Kingdom"
@@ -78,3 +82,10 @@ print(response.text)
 
 
 curl --data "4a vijay society, kansari khambhat, anand, gujrat, 388630"  http://172.17.0.2:8080/api/v1/addressparser
+
+###docker pushing
+
+docker tag addressparser:latest bardock123/dockerhub:address
+
+docker push bardock123/dockerhub:addressparser
+
