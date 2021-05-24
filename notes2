@@ -6,3 +6,5 @@ Add your user to the docker group.
 $ sudo usermod -aG docker $USER
 Run the following command or Logout and login again and run (that doesn't work you may need to reboot your machine first)
 $ newgrp docker
+
+docker login -u "bardock123" -p "Raghav123" docker.io
