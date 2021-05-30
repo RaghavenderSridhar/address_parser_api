@@ -25,7 +25,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN git clone https://github.com/openvenues/libpostal -b $COMMIT
 
-COPY ./build_libpostal.sh /libpostal/
+COPY ./src/build_libpostal.sh /libpostal/
 
 WORKDIR /libpostal
 
@@ -35,7 +35,7 @@ RUN ./build_libpostal.sh
 
 # ####pip install
 
-COPY ./python_app/requirements.txt /tmp/requirements.txt
+COPY requirements.txt /tmp/requirements.txt
 
 
 RUN python3 -m pip install -r /tmp/requirements.txt
@@ -49,9 +49,9 @@ EXPOSE 8080
 
 WORKDIR /addressParser
 
-ADD ./python_app /addressParser/python_app
+ADD ./src /addressParser/flask_app/
 
-ADD ./entrypoint.sh ./entrypoint.sh
+ADD ./src/entrypoint.sh ./entrypoint.sh
 
 RUN chmod +x ./entrypoint.sh
 
