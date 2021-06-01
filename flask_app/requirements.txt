@@ -6,5 +6,8 @@ requests
 flask_restful
 flasgger
 gunicorn
-pandas 
+pandas
+fastapi
+uvicorn
+jinja2
 
