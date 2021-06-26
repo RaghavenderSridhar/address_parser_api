@@ -1,2 +1,3 @@
 *.txt
 /data
+/address_parser_api-uvicorn_gunicorn_fastapi_logging/*
